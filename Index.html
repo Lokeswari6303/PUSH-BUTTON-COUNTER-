@@ -1,0 +1,99 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temperature Sensor with Arduino</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f8;
+      margin: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #005a9c;
+    }
+    code, pre {
+      background-color: #eaeaea;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+      white-space: pre-wrap;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    .terminal {
+      background-color: #000;
+      color: #0f0;
+      padding: 10px;
+      font-family: "Courier New", Courier, monospace;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Arduino Temperature Sensor Project</h1>
+
+  <p>This project demonstrates how to read temperature using an LM35 sensor and display the result on a 16x2 LCD or the Serial Monitor using Arduino.</p>
+
+  <h2>🔌 Circuit Diagram</h2>
+  <p>Connect the LM35 and LCD as shown:</p>
+  <img src="https://www.circuitbasics.com/wp-content/uploads/2015/12/Arduino-LCD-Wiring-Diagram.png" alt="LCD Circuit Diagram">
+
+  <h2>📟 Arduino Code</h2>
+  <pre><code>
+// Include the LCD library
+#include &lt;LiquidCrystal.h&gt;
+
+// Define sensor and LCD pins
+const int sensorPin = A0;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  lcd.begin(16, 2);        // Start the LCD
+  Serial.begin(9600);      // Start the Serial Monitor
+  lcd.print("Temp: ");
+}
+
+void loop() {
+  int sensorValue = analogRead(sensorPin);
+  float voltage = sensorValue * (5.0 / 1023.0);
+  float temperatureC = voltage * 100;
+
+  // Display on LCD
+  lcd.setCursor(6, 0);
+  lcd.print(temperatureC);
+  lcd.print(" C ");
+
+  // Display on Serial Monitor
+  Serial.print("Temperature: ");
+  Serial.print(temperatureC);
+  Serial.println(" °C");
+
+  delay(1000); // Wait 1 second
+}
+  </code></pre>
+
+  <h2>💻 Simulated Serial Monitor Output</h2>
+  <div class="terminal">
+    Temperature: 25.10 °C<br>
+    Temperature: 25.20 °C<br>
+    Temperature: 25.30 °C<br>
+    Temperature: 25.25 °C<br>
+    Temperature: 25.28 °C<br>
+  </div>
+
+  <h2>📘 Notes</h2>
+  <ul>
+    <li>The LM35 outputs 10mV per degree Celsius.</li>
+    <li>The analog value is converted to voltage and then temperature.</li>
+    <li>You can use Serial Monitor instead of LCD if you don’t have one.</li>
+  </ul>
+
+</body>
+</html>
